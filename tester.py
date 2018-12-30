@@ -44,13 +44,6 @@ def test_classifier(clf, dataset, feature_list, folds = 1000):
             features_test.append( features[jj] )
             labels_test.append( labels[jj] )
 
-        #if (i == 0):
-        #    print features_test
-        #    print labels_test
-        #    from poi_utils import showOnPlot
-            #showOnPlot(features, labels, 0, 8, feature_list)
-        #i = i + 1
-
         ### fit the classifier using training set, and test on test set
         clf.fit(features_train, labels_train)
         predictions = clf.predict(features_test)

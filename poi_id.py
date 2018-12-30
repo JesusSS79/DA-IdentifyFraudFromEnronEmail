@@ -158,8 +158,8 @@ param_grid_dtc = {
     'classifier__max_depth':         [None, 5, 10, 20],
 }
 
-pipe = pipe_dtc
-param_grid = param_grid_dtc
+#pipe = pipe_dtc
+#param_grid = param_grid_dtc
 
 
 # KNeighborsClassifier
@@ -181,8 +181,8 @@ param_grid_knc = {
     'classifier__p':           [1, 2, 3],
 }
 
-pipe = pipe_knc
-param_grid = param_grid_knc
+#pipe = pipe_knc
+#param_grid = param_grid_knc
 
 
 # GridSearchCV

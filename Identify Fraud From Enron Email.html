@@ -11907,7 +11907,16 @@ The <b>'email_address'</b> property is a string that is not useful for classific
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To <b>measure the data quality</b> of the properties we checked the percentage of NaNs in each of the properties</p>
+<p>The balance of POI/no POI (after removing the elements of population with all properties with NaNs value) is around <b>12.5% of POI (18 POI/125 no POI)</b></p>
+
+</div>
+</div>
+</div>POI Balance: 12.59 ( 18 / 143 )
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To <b>measure the data quality</b> of the properties we checked the percentage of NaNs in each of the properties (after removing the elements of population with all properties with NaNs value)</p>
 
 </div>
 </div>
@@ -11917,7 +11926,7 @@ The <b>'email_address'</b> property is a string that is not useful for classific
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">showNaNs</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">features_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">poi_utils_show_nans</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">features_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 </pre></div>
 
 </div>
@@ -11927,7 +11936,7 @@ The <b>'email_address'</b> property is a string that is not useful for classific
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">NaN</span> <span class="n">Percent</span>
@@ -11956,42 +11965,39 @@ The <b>'email_address'</b> property is a string that is not useful for classific
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-4-a6a847d966ae&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">1</span>
+<span class="ansi-red-fg">    NaN Percent</span>
+              ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Properties with a low quality (NaN&gt; 60) will not take them into account:
-<br>73.6 deferral_payments
-<br>88.2 restricted_stock_deferred
-<br>97.9 loan_advances
-<br>88.9 director_fees
-<br>66.7 deferred_income</p>
+<p>Using the following function i check all the people names to try to find some error.
+I found <b>'THE TRAVEL AGENCY IN THE PARK'</b> to remove from the data because it is not a person to analize.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>At this point there are 14 properties to consider.
-<br>
-Using the following code to graphically show each property (2 at a time) together with the labeled POI / No POI analyzed if the properties are useful to discern the classification.</p>
-
-</div>
-</div>
-</div>showOnPlot(features, labels, feature_index_axis_x, feature_index_axis_y, features_list)
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In addition to finding an outliner (next point) we are keep the following properties (6) that it seems (after graphic analysis) are related to the POI / non-POI classification: <b>['salary', 'bonus', 'total_stock_value', 'total_payments','expenses', 'long_term_incentive']</b></p>
-<p>We will also include properties related to messages sent / received with POIs but we will include them as percentages later.</p>
-
-</div>
-</div>
-</div>
+</div>poi_utils.show_person_names(my_dataset)
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -12004,7 +12010,37 @@ Using the following code to graphically show each property (2 at a time) togethe
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Using the following code to graphically show each property (2 at a time) together with the labeled POI / No POI analyzed if there are any unexpected value.</p>
+
+</div>
+</div>
+</div>poi_utils.show_on_plot(features, labels, feature_index_axis_x, feature_index_axis_y, features_list)
+poi_utils.show_person_properties(dataset, prop_name, threshold, conditional)
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Analyzing graphically the selected properties a clear outliner is observed. Analyzing the dataset it is observed that it corresponds to <b>'TOTAL'</b> so we eliminate it from the dataset.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I also remove the following because:
+<br><b>'BHATNAGAR SANJAY'</b>: Wrong data on 'exercised_stock_options' and 'restricted_stock' (data exchange)
+<br><b>'BELFER ROBERT'</b>: 'restricted_stock_deferred' must be negative
+<br><b>'HAUG DAVID L'</b>: Total Payment 475. No other payment data and only stock value.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>In some cases other outliners seem to be observed, but they help us detect POIs so they do not have to be eliminated.</p>
 
 </div>
@@ -12028,24 +12064,17 @@ Using the following code to graphically show each property (2 at a time) togethe
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Change the properties 'from_this_person_to_poi', 'from_poi_to_this_person' and total from/to/shared messages passing them to percentages on the total of messages that correspond to them.</p>
+<p>Change the properties 'from_this_person_to_poi', 'from_poi_to_this_person' and total from/to/shared messages passing them to percentages on the total of messages that correspond to them.
+I also include:
+'bonus_salary'. Proportion of bonus on salary.
+'incentive_salary'. Proportion of 'long_term_incentive' on salary
+'stock_payment'. Proportion of 'total_stock_value' on 'total_payments'
+'total'. Aggregation of 'total_payments' and 'total_stock_value'
+'total_salary'. Proportion of 'total' on salary</p>
 
 </div>
 </div>
@@ -12055,16 +12084,16 @@ Using the following code to graphically show each property (2 at a time) togethe
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">features_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;perc_poi_messages&#39;</span><span class="p">)</span>
-<span class="n">include_perc_poi_messages</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="s1">&#39;perc_poi_messages&#39;</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">poi_utils</span><span class="o">.</span><span class="n">include_div_poi</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="n">features_list</span><span class="p">,</span> <span class="s1">&#39;perc_poi_messages&#39;</span><span class="p">,</span>
                           <span class="p">[</span><span class="s1">&#39;from_this_person_to_poi&#39;</span><span class="p">,</span> <span class="s1">&#39;from_poi_to_this_person&#39;</span><span class="p">,</span> <span class="s1">&#39;shared_receipt_with_poi&#39;</span><span class="p">],</span>
                           <span class="p">[</span><span class="s1">&#39;to_messages&#39;</span><span class="p">,</span> <span class="s1">&#39;from_messages&#39;</span><span class="p">,</span> <span class="s1">&#39;shared_receipt_with_poi&#39;</span><span class="p">])</span>
-
-<span class="n">features_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;perc_this_person_to_poi&#39;</span><span class="p">)</span>
-<span class="n">include_perc_poi_messages</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="s1">&#39;perc_this_person_to_poi&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;from_this_person_to_poi&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;from_messages&#39;</span><span class="p">])</span>
-
-<span class="n">features_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;perc_poi_to_this_person&#39;</span><span class="p">)</span>
-<span class="n">include_perc_poi_messages</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="s1">&#39;perc_poi_to_this_person&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;from_poi_to_this_person&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;to_messages&#39;</span><span class="p">])</span>
+<span class="n">poi_utils</span><span class="o">.</span><span class="n">include_div_poi</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="n">features_list</span><span class="p">,</span> <span class="s1">&#39;perc_this_person_to_poi&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;from_this_person_to_poi&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;from_messages&#39;</span><span class="p">])</span>
+<span class="n">poi_utils</span><span class="o">.</span><span class="n">include_div_poi</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="n">features_list</span><span class="p">,</span> <span class="s1">&#39;perc_poi_to_this_person&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;from_poi_to_this_person&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;to_messages&#39;</span><span class="p">])</span>
+<span class="n">poi_utils</span><span class="o">.</span><span class="n">include_div_poi</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="n">features_list</span><span class="p">,</span> <span class="s1">&#39;bonus_salary&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;bonus&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">])</span>
+<span class="n">poi_utils</span><span class="o">.</span><span class="n">include_div_poi</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="n">features_list</span><span class="p">,</span> <span class="s1">&#39;incentive_salary&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;long_term_incentive&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">])</span>
+<span class="n">poi_utils</span><span class="o">.</span><span class="n">include_div_poi</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="n">features_list</span><span class="p">,</span> <span class="s1">&#39;stock_payment&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;total_stock_value&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;total_payments&#39;</span><span class="p">])</span>
+<span class="n">poi_utils</span><span class="o">.</span><span class="n">include_add_poi</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="n">features_list</span><span class="p">,</span> <span class="s1">&#39;total&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;total_payments&#39;</span><span class="p">,</span> <span class="s1">&#39;total_stock_value&#39;</span><span class="p">])</span>
+<span class="n">poi_utils</span><span class="o">.</span><span class="n">include_div_poi</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="n">features_list</span><span class="p">,</span> <span class="s1">&#39;total_salary&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;salary&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -12076,24 +12105,13 @@ Using the following code to graphically show each property (2 at a time) togethe
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Additionally, I use PCA to accelerate the prediction speed of the algorithm. 8 is the minimum number of components before losing efficiency.</p>
+<p>I use a scaler, selector and PCA in a pipeline on the training and predictions in order to fast the algorithm.
+A scaler (MinMaxScaler) in order to regularizing them between the maximum and minimum.
+A selector (SelectKBest) in order to select the most significant features.
+A PCA in order to reduce to the main component of the selected features.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-<span class="n">features</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -12111,21 +12129,48 @@ Using the following code to graphically show each property (2 at a time) togethe
 <p>The following algorithms have been used for the POI detector:</p>
 <ul>
 <li>Gaussian NB</li>
-<li>SVC</li>
+<li>KNeighbors Classifier</li>
 <li>Decision Tree Classifier</li>
 </ul>
 
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Gaussian-NB">Gaussian NB<a class="anchor-link" href="#Gaussian-NB">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following code shows the parameters used in the tuning of the scaler, selector, reducer and classifier.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#clf = GaussianNB()</span>
-<span class="c1">#clf = svm.SVC(gamma=&quot;auto&quot;, C=8000.0, kernel=&#39;rbf&#39;)</span>
-<span class="c1">#clf = tree.DecisionTreeClassifier()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># GaussianNB</span>
+<span class="n">pipe_nbc</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+        <span class="p">(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">MinMaxScaler</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">SelectKBest</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s1">&#39;reducer&#39;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span> <span class="n">GaussianNB</span><span class="p">())</span>
+    <span class="p">])</span>
+
+<span class="n">param_grid_nbc</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;scaler&#39;</span><span class="p">:</span>                <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">MinMaxScaler</span><span class="p">()],</span>
+    <span class="s1">&#39;selector__k&#39;</span><span class="p">:</span>           <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;reducer__n_components&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+<span class="p">}</span>
 </pre></div>
 
 </div>
@@ -12137,8 +12182,15 @@ Using the following code to graphically show each property (2 at a time) togethe
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The best result was given by SVC and Naive Bayes.
-Finally SVC has been selected after choosing the best one using GridSearchCV</p>
+<h3 id="KNeighbors-Classifer">KNeighbors Classifer<a class="anchor-link" href="#KNeighbors-Classifer">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following code shows the parameters used in the tuning of the scaler, selector, reducer and classifier.</p>
 
 </div>
 </div>
@@ -12148,10 +12200,24 @@ Finally SVC has been selected after choosing the best one using GridSearchCV</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;kernel&#39;</span><span class="p">:(</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="s1">&#39;rbf&#39;</span><span class="p">),</span> <span class="s1">&#39;C&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="mi">9000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">11000</span><span class="p">]}</span>
-<span class="n">clf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">),</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">iid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;f1&#39;</span><span class="p">)</span>
-<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features_train</span><span class="p">,</span> <span class="n">labels_train</span><span class="p">)</span>
-<span class="nb">print</span> <span class="n">clf</span><span class="o">.</span><span class="n">best_params_</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># KNeighborsClassifier</span>
+<span class="n">pipe_knc</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+        <span class="p">(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">MinMaxScaler</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">SelectKBest</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s1">&#39;reducer&#39;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span> <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+    <span class="p">])</span>
+
+<span class="n">param_grid_knc</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;scaler&#39;</span><span class="p">:</span>                  <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">MinMaxScaler</span><span class="p">()],</span>
+    <span class="s1">&#39;selector__k&#39;</span><span class="p">:</span>             <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;reducer__n_components&#39;</span><span class="p">:</span>   <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__n_neighbors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__weights&#39;</span><span class="p">:</span>     <span class="p">[</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__algorithm&#39;</span><span class="p">:</span>   <span class="p">[</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;ball_tree&#39;</span><span class="p">,</span> <span class="s1">&#39;kd_tree&#39;</span><span class="p">,</span> <span class="s1">&#39;brute&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__leaf_size&#39;</span><span class="p">:</span>   <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__p&#39;</span><span class="p">:</span>           <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="p">}</span>
 </pre></div>
 
 </div>
@@ -12163,7 +12229,200 @@ Finally SVC has been selected after choosing the best one using GridSearchCV</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The iterated parameters have been 'kernel' and 'C' and I have set 'gamma'. As scoring I have sought to maximize f1.</p>
+<h3 id="Decision-Tree-Classifier">Decision Tree Classifier<a class="anchor-link" href="#Decision-Tree-Classifier">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following code shows the parameters used in the tuning of the scaler, selector, reducer and classifier.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># DecisionTreeClassifier</span>
+<span class="n">pipe_dtc</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+        <span class="p">(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">SelectKBest</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s1">&#39;reducer&#39;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span> <span class="n">DecisionTreeClassifier</span><span class="p">())</span>
+    <span class="p">])</span>
+
+<span class="n">param_grid_dtc</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;scaler&#39;</span><span class="p">:</span>                        <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">MinMaxScaler</span><span class="p">()],</span>
+    <span class="s1">&#39;selector__k&#39;</span><span class="p">:</span>                   <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;reducer__n_components&#39;</span><span class="p">:</span>         <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__criterion&#39;</span><span class="p">:</span>         <span class="p">[</span><span class="s1">&#39;gini&#39;</span><span class="p">,</span> <span class="s1">&#39;entropy&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__splitter&#39;</span><span class="p">:</span>          <span class="p">[</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="s1">&#39;random&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__min_samples_split&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__class_weight&#39;</span><span class="p">:</span>      <span class="p">[</span><span class="s1">&#39;balanced&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__min_samples_leaf&#39;</span><span class="p">:</span>  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="s1">&#39;classifier__max_depth&#39;</span><span class="p">:</span>         <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="GridSearchCV">GridSearchCV<a class="anchor-link" href="#GridSearchCV">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I use GridSearchCV to automatically select the best parameters that adapt to the algorithm to get the best score.
+<br>I use StratifiedShuffleSplit for cross validation to get the best out of the few data we have by selecting training data set and test in the search for the best algorithm
+<br>I use f1 scoring in this case to maximize precision and recall.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sss</span> <span class="o">=</span> <span class="n">StratifiedShuffleSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;f1&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">sss</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features_train</span><span class="p">,</span> <span class="n">labels_train</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<table>
+<thead><tr>
+<th>Param/Score</th>
+<th>Gaussian NB</th>
+<th>KNeighbors</th>
+<th>Decission Tree</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scaler</td>
+<td>MinMaxScaler()</td>
+<td>None</td>
+<td>MinMaxScaler()</td>
+</tr>
+<tr>
+<td>Selector</td>
+<td>k = 12</td>
+<td>k = all</td>
+<td>k = 14</td>
+</tr>
+<tr>
+<td>Reducer</td>
+<td>n_components = 6</td>
+<td>n_components = 9</td>
+<td>n_components = 5</td>
+</tr>
+<tr>
+<td>Classifer</td>
+<td>N/A</td>
+<td>n_neighbor = 2</td>
+<td>criterion = gini</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>weights = distance</td>
+<td>splitter = random</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>algorithm = auto</td>
+<td>min_samples_split = 3</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>leaf_size = 2</td>
+<td>class_weight = balanced</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>p =</td>
+<td>min_samples_leaf = 1</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>max_depth = 5</td>
+</tr>
+<tr>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>Accuracy</td>
+<td>0.82</td>
+<td>0.79</td>
+<td>0.69</td>
+</tr>
+<tr>
+<td>Precision</td>
+<td>0.36</td>
+<td>0.24</td>
+<td>0.23</td>
+</tr>
+<tr>
+<td>Recall</td>
+<td>0.30</td>
+<td>0.21</td>
+<td>0.48</td>
+</tr>
+<tr>
+<td>F1</td>
+<td>0.33</td>
+<td>0.22</td>
+<td>0.31</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The best result obtained has been with a Pipeline with MinMaxScaler, SelectKBest(k=12), PCA(n_components=6) and <b>Gaussian NB</b></p>
 
 </div>
 </div>
@@ -12173,6 +12432,17 @@ Finally SVC has been selected after choosing the best one using GridSearchCV</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Validate-and-Evaluate">Validate and Evaluate<a class="anchor-link" href="#Validate-and-Evaluate">&#182;</a></h2><hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The validation of the algorithm is a fundamental part. It is necessary to ensure that the results in their precisions are adapted to our expectations.<br>
+In this case, accuracy does not matter. It is necessary to ensure that precision and recall have significant values.<br>
+It is also necessary to assess the algorithm's performance of the speed at which we need the answers.</p>
 
 </div>
 </div>
@@ -12192,10 +12462,10 @@ Finally SVC has been selected after choosing the best one using GridSearchCV</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="s2">&quot;Accuracy Train&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">features_train</span><span class="p">,</span> <span class="n">labels_train</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-<span class="nb">print</span> <span class="s2">&quot;Accuracy Test&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">features_test</span><span class="p">,</span> <span class="n">labels_test</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="s2">&quot;Accuracy Train&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">features_train</span><span class="p">,</span> <span class="n">labels_train</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s2">&quot;Accuracy Test&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">features_test</span><span class="p">,</span> <span class="n">labels_test</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
 
-<span class="n">prediction_test</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features_test</span><span class="p">)</span>
+<span class="n">prediction_test</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features_test</span><span class="p">)</span>
 <span class="nb">print</span> <span class="s2">&quot;Precision Score&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">precision_score</span><span class="p">(</span><span class="n">labels_test</span><span class="p">,</span> <span class="n">prediction_test</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
 <span class="nb">print</span> <span class="s2">&quot;Recall Score&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">recall_score</span><span class="p">(</span><span class="n">labels_test</span><span class="p">,</span> <span class="n">prediction_test</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
@@ -12205,30 +12475,11 @@ Finally SVC has been selected after choosing the best one using GridSearchCV</p>
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Accuracy</span> <span class="n">Train</span> <span class="mf">0.98</span>
-<span class="n">Accuracy</span> <span class="n">Test</span> <span class="mf">0.91</span>
-<span class="n">Precision</span> <span class="n">Score</span> <span class="mf">0.75</span>
-<span class="n">Recall</span> <span class="n">Score</span> <span class="mf">0.5</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this project context (detection of culprits) I am interested in maximizing precision but without forgetting the rest of the parameters (accuracy, recall). So I chose a scoring f1 reviewing the parameters and properties to choose the configuration that generated high precision.<br>
-The result of a 75% precision seems very good (in this context of exercise) being only 25% of non-POI predicted as POI (false positives).<br>
-On the other hand only 50% (recall) of true POI will not be detected (false negative).<br>
-The general accuracy is very high 0.91</p>
+<p>In this project context (detection of fraud) I am interested in maximizing precision but without forgetting the rest of the parameters (accuracy, recall). So I chose a scoring f1 reviewing the parameters and properties to choose the configuration that generated high precision.<br></p>
 
 </div>
 </div>
@@ -12238,7 +12489,9 @@ The general accuracy is very high 0.91</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><p>[Wikipedia] <a href="https://en.wikipedia.org/wiki/Enron_scandal">https://en.wikipedia.org/wiki/Enron_scandal</a><br>
-[Scikit Learn Web] <a href="https://scikit-learn.org/stable/">https://scikit-learn.org/stable/</a></p>
+[Scikit Learn Web] <a href="https://scikit-learn.org/stable/">https://scikit-learn.org/stable/</a><br>
+<a href="https://www.quora.com/How-do-I-properly-use-SelectKBest-GridSearchCV-and-cross-validation-in-the-sklearn-package-together">https://www.quora.com/How-do-I-properly-use-SelectKBest-GridSearchCV-and-cross-validation-in-the-sklearn-package-together</a><br>
+<a href="http://busigence.com/blog/hyperparameter-optimization-and-why-is-it-important">http://busigence.com/blog/hyperparameter-optimization-and-why-is-it-important</a><br></p>
 <p>I hereby confirm that this submission is my work. I have cited above the origins of any parts of the submission that were taken from Websites, books, forums, blog posts, github repositories, etc.</p>
 
 </div>
