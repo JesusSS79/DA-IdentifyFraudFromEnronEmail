@@ -2,7 +2,7 @@
 
 import matplotlib.pyplot as plt
 
-def showOnPlot(features, labels, x, y, features_list):
+def show_on_plot(features, labels, x, y, features_list):
     i = 0
     points = 0
     xva_poi = []
@@ -15,11 +15,6 @@ def showOnPlot(features, labels, x, y, features_list):
         xv = feature[x]
         yv = feature[y]
 
-        if (yv > 6000000):
-            print xv, yv
-        if (yv < 0):
-            print xv, yv
-
         if yv != 'NaN':
             points += 1
             if poi == 1:
@@ -30,7 +25,7 @@ def showOnPlot(features, labels, x, y, features_list):
                 yva_npoi.append(yv)
 
         # plt.plot(ages, reg.predict(ages), color="blue")
-    print "Points on Plot:", points
+    #print "Points on Plot:", points
     plt.scatter(xva_poi, yva_poi, color="r", label="POI")
     plt.scatter(xva_npoi, yva_npoi, color="b", label="NO POI")
     plt.legend()
@@ -39,7 +34,7 @@ def showOnPlot(features, labels, x, y, features_list):
     plt.show()
 
 
-def showNaNs(features, features_list):
+def show_nans(features, features_list):
     number_values = len(features[0])
     nans = []
 
@@ -58,23 +53,63 @@ def showNaNs(features, features_list):
         print round(nans[i] / float(len(features)) * 100, 1), features_list[i]
 
 
-def include_perc_poi_messages(dataset, prop_name, num_prop, den_prop):
+def show_poi_balance(labels):
+    count = 0
+    for label in labels:
+        if label == 1:
+            count += 1
+    print "POI Balance:", round(100*count/float(len(labels)), 2), "(", count, "/", len(labels), ")"
+
+
+def show_person_names(data):
+    for person in data.keys():
+        print person
+
+
+def show_person_properties(dataset, prop_name, threshold, conditional):
+    for key, values in dataset.items():
+        if (values[prop_name] != 'NaN'):
+            if ((conditional == 'upper') and (float(values[prop_name]) >= threshold)) or \
+               ((conditional == 'lower') and (float(values[prop_name]) <= threshold)):
+                print key, values
+
+
+def include_div_poi(dataset, features_list, prop_name, num_prop, den_prop):
+    features_list.append(prop_name)
     for person in dataset.values():
         num = 0
         den = 0
+        valid = True
         for prop in num_prop:
             value = person[prop]
             if value != 'NaN':
                 num += value
+            else:
+                valid = False
 
         for prop in den_prop:
             value = person[prop]
             if value != 'NaN':
                 den += value
+            else:
+                valid = False
 
-        if (den == 0):
-            perc = 0
+        if (den == 0) or valid is False:
+            perc = 'NaN'
         else:
-            perc = num/float(den)
+            perc = round(num/float(den), 3)
 
         person[prop_name] = perc
+
+
+def include_add_poi(dataset, features_list, prop_name, prop_list):
+    features_list.append(prop_name)
+    for person in dataset.values():
+        valid = True
+        for prop in prop_list:
+            if person[prop] == 'NaN':
+                valid = False
+        if valid:
+            person[prop_name] = sum([person[prop] for prop in prop_list])
+        else:
+            person[prop_name] = 'NaN'
